@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<h3>Caro Game Simple</h3>
+<p id="carogame" >
+
+<button type="button" id="button1" onclick="placeMove()"  >Player 1</button>
+<button type="button" id="button2" onclick="placeMove()">Player 2</button>
+
+</body>
+
+<script>
+    let board = [];
+    let data = "";
+    let button1 = '<button type="button" onclick="placeMove(1)" id="button1">Player 1</button>';
+    let button2 = '<button type="button" onclick="placeMove(2)" id="button2">Player 2</button>';
+    let takeTurn = 1;
+    document.getElementById("button1").disabled = false;
+    document.getElementById("button2").disabled = true;
+
+    for (let i = 0; i < 10; i++) {
+        board[i] = [".", ".", ".", ".", ".", ".", ".", ".", ".", "."];
+    }
+    for (let i = 0; i < 10; i++) {
+        data += "<br/>";
+        for (let j = 0; j < 10; j++) {
+            data += board[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        }
+    }
+    data += "<br/><br/>" + button1 + button2;
+    document.getElementById("carogame").innerHTML = data;
+
+    function checkWinner() {
+        for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < 7; j++) {
+                if ((board[i][j] === "x" && board[i][j+1] === "x" && board[i][j+2] === "x" ) || (board[i][j] === "x" && board[i+1][j] === "x" && board[i+2][j] === "x" ) || (board[i][j] === "x" && board[i+1][j+1] === "x" && board[i+2][j+2] === "x")) {
+                    return 1;
+                }
+            }
+            for (let j = 0; j < 7; j++) {
+                if ((board[i][j] === "o" && board[i][j+1] === "o" && board[i][j+2] === "o" ) || (board[i][j] === "o" && board[i+1][j] === "o" && board[i+2][j] === "o" ) || (board[i][j] === "o" && board[i+1][j+1] === "o" && board[i+2][j+2] === "o")) {
+                    return 2;
+                }
+            }
+        }
+    }
+
+
+
+    function placeMove(player) {
+        let positionX = prompt("X: ");
+        let positionY = prompt("Y: ");
+        data = "";
+        switch (player) {
+            case 1:
+                board[positionX][positionY] = "x";
+                break;
+            case 2:
+                board[positionX][positionY] = "o";
+                break;
+        }
+        for (let i = 0; i < 10; i++) {
+            data += "<br/>";
+            for (let j = 0; j < 10; j++) {
+                data += board[i][j] + "&nbsp;&nbsp;";
+            }
+        }
+        data += "<br/><br/>" + button1 + button2;
+        document.getElementById("carogame").innerHTML = "<hr/>" + data;
+
+        checkWinner();
+
+        switch (checkWinner()) {
+            case 1:
+                alert("Player 1 won!");
+                break;
+            case 2:
+                alert("Player 2 won!");
+                break;
+        }
+
+        takeTurn++;
+
+        switch (takeTurn % 2) {
+            case 0:
+                document.getElementById("button1").disabled = true;
+                document.getElementById("button2").disabled = false;
+                break;
+            case  1:
+                document.getElementById("button1").disabled = false;
+                document.getElementById("button2").disabled = true;
+                break;
+        }
+    }
+
+
+
+
+</script>
+
+</html>
